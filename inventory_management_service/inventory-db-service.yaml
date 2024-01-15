@@ -1,0 +1,14 @@
+#nventory-db-service.yaml to expose the MySQL database within the cluster:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-db-service
+spec:
+  selector:
+    app: inventory-db
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  type: ClusterIP

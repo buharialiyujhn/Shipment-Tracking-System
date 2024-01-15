@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Items</title>
+    <!-- You can add the same style as in landing_page.html or link to a stylesheet -->
+</head>
+<body>
+    <h1>Inventory Items</h1>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.name }} - {{ item.quantity }} - <a href="{{ url_for('inventory_bp.view_item', item_id=item.id) }}">View</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

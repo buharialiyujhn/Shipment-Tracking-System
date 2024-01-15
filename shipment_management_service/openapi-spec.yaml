@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  title: Shipment Tracking API
+  version: 1.0.0
+paths:
+
+  /shipments:
+    get:
+      summary: List all shipments
+      responses:
+        '200':
+          description: A list of shipments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shipment'
+    post:
+      summary: Create a new shipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+      responses:
+        '201':
+          description: Shipment created
+
+
+  /shipments/{shipment_id}:
+    get:
+      summary: Retrieve a specific shipment
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Shipment details
+    put:
+      summary: Update a specific shipment
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                current_location:
+                  type: string
+                status:
+                  type: string
+                estimated_delivery_time:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Shipment updated successfully
+    delete:
+      summary: Delete a specific shipment
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Shipment deleted successfully
+
+  /shipments/new:
+    get:
+      summary: Display form to create a new shipment
+      responses:
+        '200':
+          description: New shipment form page
+    post:
+      summary: Create a new shipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+      responses:
+        '201':
+          description: New shipment created
+  /shipments/{shipment_id}/edit:
+    get:
+      summary: Display form to edit an existing shipment
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Edit shipment form page
+    post:
+      summary: Update an existing shipment
+      parameters:
+        - in: path
+          name: shipment_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+      responses:
+        '200':
+          description: Shipment updated
+
+  /shipments/filter:
+    get:
+      summary: Filter shipments based on criteria
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: location
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of filtered shipments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shipment'
+  /shipments/reports:
+    get:
+      summary: Generate reports on shipments
+      responses:
+        '200':
+          description: Shipment report data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                    count:
+                      type: integer
+
+
+components:
+  schemas:
+    Shipment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        history:
+          type: object
+        current_location:
+          type: string
+        status:
+          type: string
+        estimated_delivery_time:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+

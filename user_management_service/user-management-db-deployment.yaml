@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-db  # Changed to user-management-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-management-db  # Changed to user-management-db
+  template:
+    metadata:
+      labels:
+        app: user-management-db  # Changed to user-management-db
+    spec:
+      containers:
+      - name: user-management-db  # Changed to user-management-db
+        image: mysql:5.7  # Use the official MySQL image
+        ports:
+        - containerPort: 3306
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "Xm__@62769"
+          - name: MYSQL_DATABASE
+            value: "shipment_clients"  # Kept as is, per your instruction
+          - name: MYSQL_USER
+            value: "shipment_user"  # Kept as is
+          - name: MYSQL_PASSWORD
+            value: "Xm1234isep"

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pricing-db
+  template:
+    metadata:
+      labels:
+        app: pricing-db
+    spec:
+      containers:
+      - name: pricing-db
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306

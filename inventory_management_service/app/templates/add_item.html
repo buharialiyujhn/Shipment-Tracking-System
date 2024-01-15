@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Inventory Item</title>
+    <!-- Include your CSS here -->
+</head>
+<body>
+    <h1>Add New Inventory Item</h1>
+    <form method="post" action="{{ url_for('inventory_bp.add_item') }}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" required>
+        <input type="submit" value="Add Item">
+    </form>
+</body>
+</html>

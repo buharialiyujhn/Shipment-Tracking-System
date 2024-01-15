@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-management-db-service  # Changed to user-management-db-service
+spec:
+  selector:
+    app: user-management-db  # Changed to user-management-db
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  type: ClusterIP

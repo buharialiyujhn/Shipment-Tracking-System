@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  title: Support and Feedback Service API
+  version: 1.0.0
+paths:
+  /feedback:
+    get:
+      summary: Display the feedback submission form
+      responses:
+        '200':
+          description: Feedback form page
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      summary: Submit feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                category:
+                  type: string
+                feedback:
+                  type: string
+      responses:
+        '201':
+          description: Feedback submitted
+
+  /feedback/list:
+    get:
+      summary: List all feedback submissions
+      responses:
+        '200':
+          description: List of all feedbacks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    user_id:
+                      type: integer
+                    category:
+                      type: string
+                    feedback:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+  # Additional paths for SupportTicket and other endpoints can be added here
+
+  /ticket:
+    get:
+      summary: Display the support ticket creation form
+      responses:
+        '200':
+          description: Ticket creation form
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      summary: Create a new support ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                content:
+                  type: string
+                status:
+                  type: string
+                priority:
+                  type: string
+      responses:
+          '201':
+            description: Support ticket created
+
+  /tickets:
+    get:
+      summary: List all support tickets
+      responses:
+        '200':
+          description: A list of support tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    user_id:
+                      type: integer
+                    content:
+                      type: string
+                    status:
+                      type: string
+                    priority:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+
+  # Additional paths can be continued based on the structure in the former microservice.py file
+
+  /tickets/{ticket_id}:
+    get:
+      summary: Retrieve a specific ticket
+      parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ticket details
+    put:
+      summary: Update a specific ticket
+      parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Ticket updated
+
+  /tickets/{ticket_id}/close:
+    put:
+      summary: Close a ticket
+      parameters:
+        - in: path
+          name: ticket_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ticket closed
+
+
+  /feedback/{feedback_id}:
+    get:
+      summary: Retrieve specific feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Specific feedback details
+    put:
+      summary: Update specific feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                feedback:
+                  type: string
+      responses:
+        '200':
+          description: Feedback updated
+
+  /feedback/{feedback_id}/delete:
+    delete:
+      summary: Delete specific feedback
+      parameters:
+        - in: path
+          name: feedback_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Feedback deleted
+
+  /feedback/reports:
+    get:
+      summary: Generate feedback reports
+      responses:
+        '200':
+          description: Feedback report data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_feedbacks:
+                    type: integer
+                  feedbacks_by_category:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  latest_feedbacks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Feedback'
+
+
+
+components:
+  schemas:
+    Feedback:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        category:
+          type: string
+        feedback:
+          type: string
+        created_at:
+          type: string
+          format: date-time

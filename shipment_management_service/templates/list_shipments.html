@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Shipments</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Shipments</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Content</th>
+            <th>Status</th>
+            <!-- Add other relevant columns -->
+        </tr>
+        {% for shipment in shipments %}
+        <tr>
+            <td>{{ shipment.id }}</td>
+            <td>{{ shipment.content }}</td>
+            <td>{{ shipment.status }}</td>
+            <!-- Add other relevant details -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

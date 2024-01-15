@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/user_management_service" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/inventory_management_service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/order_management_service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/pricing_and_reporting_service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/shipment_management_service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/support_and_feedback_service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/user management service/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/user_management_service/venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.12 (Shipment_Tracking_System) (2)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

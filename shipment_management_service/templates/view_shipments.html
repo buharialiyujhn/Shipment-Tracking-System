@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Shipments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.5/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Shipment Management System</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('shipment_bp.view_shipments') }}">View Shipments</a></li>
+                    <li><a href="{{ url_for('shipment_bp.create_shipment') }}">Create Shipment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="view-form">
+            <h1>View Shipments</h1>
+            <table id="shipmentsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tracking Number</th>
+                        <th>Status</th>
+                        <th>Amount (ETH)</th>
+                        <th>Is Paid?</th>
+                        <th>Created At</th>
+                        <th>Transaction Hash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shipment in shipments %}
+                        <tr>
+                            <td>{{ shipment.id }}</td>
+                            <td>{{ shipment.tracking_number }}</td>
+                            <td>{{ shipment.status }}</td>
+                            <td>{{ '%.2f'|format(shipment.amount) }}</td>
+                            <td>{{ shipment.is_paid }}</td>
+                            <td>{{ shipment.created_at }}</td>
+                            <td>{{ shipment.transaction_Hash }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='ContractABI.json') }}">
+    </script>
+
+<script>
+
+        async function getABI() {
+            const response = await fetch("{{ url_for('static', filename='ContractABI.json') }}");
+            const data = await response.json();
+            return data;
+        }
+
+        const contractAddress = '0x00364a85794c748178c2be27c5309c69105abfc3';
+
+
+        const trackingNumbers = [11,22,33];
+
+        async function loadShipments() {
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                const contractABI = await getABI();
+                const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+                for (const trackingNumber of trackingNumbers) {
+                    try {
+                        const shipment = await contract.methods.getShipmentDetails(trackingNumber).call();
+
+                        const row = `<tr>
+                                        <td>${shipment.trackingNumber}</td>
+                                        <td>${shipment.sender}</td>
+                                        <td>${shipment.receiver}</td>
+                                        <td>${web3.utils.fromWei(shipment.amount.toString(), 'ether')}</td>
+                                        <td>${shipment.isPaid ? 'Yes' : 'No'}</td>
+                                        <td>${shipment.status}</td>
+                                     </tr>`;
+                        document.getElementById('shipmentsBody').innerHTML += row;
+                    } catch (error) {
+                        console.error(`Error fetching details for tracking number ${trackingNumber}:`, error);
+                    }
+                }
+            } else {
+                console.error('Ethereum wallet not detected. Please install MetaMask.');
+            }
+        }
+
+        window.addEventListener('load', loadShipments);
+    </script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: Order Management Service API
+  version: 1.0.0
+paths:
+  /orders:
+    get:
+      summary: List all orders
+      responses:
+        '200':
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    # Define the properties of the order object here
+                       id:
+                         type: integer
+                       customer_id:
+                         type: integer
+                       status:
+                         type: string
+                       created_at:
+                         type: string
+                         format: date-time
+                       updated_at:
+                         type: string
+                         format: date-time
+    post:
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                # Define the properties for creating a new order here
+                id:
+                  type: integer
+                customer_id:
+                  type: integer
+                status:
+                  type: string
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: New order created
+
+  /orders/{order_id}:
+    get:
+      summary: Retrieve a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Order details
+    put:
+      summary: Update a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                # Define the properties for updating an order here
+                id:
+                  type: integer
+                customer_id:
+                  type: integer
+                status:
+                  type: string
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Order updated
+    delete:
+      summary: Delete a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Order deleted
+
+  /orders/{order_id}/status:
+    patch:
+      summary: Update the status of a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Order status updated
+  # More paths to be continued...
+
+  /orders/{order_id}/cancel:
+    patch:
+      summary: Cancel a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Order canceled
+
+  /orders/{order_id}/history:
+    get:
+      summary: Retrieve the history of a specific order
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Order history details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    order_id:
+                      type: integer
+                    status:
+                      type: string
+                    change_note:
+                      type: string
+                    changed_by:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+
+  /orders/customer/{customer_id}:
+    get:
+      summary: List orders for a specific customer
+      parameters:
+        - in: path
+          name: customer_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of orders for the customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    customer_id:
+                      type: integer
+                    status:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+
+
+  /orders/reports:
+    get:
+      summary: Generate order reports
+      responses:
+        '200':
+          description: Order report data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report:
+                    type: string
+                    # Additional report properties can be added here
+
+  /orders/export:
+    get:
+      summary: Export orders to a file
+      responses:
+        '200':
+          description: Export successful
+          content:
+            application/octet-stream:
+              schema: { } # Define the schema here if needed
+
+  /orders/bulk-update:
+    patch:
+      summary: Perform bulk updates on orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  order_id:
+                    type: integer
+                  status:
+                    type: string
+      responses:
+        '200':
+          description: Bulk update completed successfully
+

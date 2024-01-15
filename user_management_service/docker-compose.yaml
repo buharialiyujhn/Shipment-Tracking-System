@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  user_web:
+    build: .
+    ports:
+      - "5000:5000"  # Maps port 5000 on the host to port 5000 on the container
+    environment:
+      - SECRET_KEY:9999999999999999999999999999999
+      - DATABASE_URL=mysql+pymysql://shipment_user:Xm1234isep@db:3306/shipment_clients  # Connection string for the app
+    depends_on:
+      - db  # Ensures that db service is started before web service
+
+  db:
+    image: mysql:latest  # Uses the latest MySQL image
+    command: --default-authentication-plugin=mysql_native_password  # Sets the default auth plugin for MySQL
+    environment:
+      - MYSQL_ROOT_PASSWORD=Xm__@62769  # Root password for MySQL
+      - MYSQL_DATABASE=shipment_clients  # Database name
+      - MYSQL_USER=shipment_user  # MySQL user
+      - MYSQL_PASSWORD=Xm1234isep  # MySQL password for the user
+    ports:
+      - "3307:3306"  # Maps port 3307 on the host to port 3306 on the container
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persistent volume for MySQL data
+
+volumes:
+  mysql-data:  # Declares the volume used by MySQL

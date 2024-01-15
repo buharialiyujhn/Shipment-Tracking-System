@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Create Shipment</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Shipment Management System</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('shipment_bp.view_shipments') }}">View Shipments</a></li>
+                    <li><a href="{{ url_for('shipment_bp.create_shipment') }}">Create Shipment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <h1>Create New Shipment</h1>
+       <div class="container">
+        <div class="create-form">
+            <h1>Create New Shipment</h1>
+            <form id="createShipmentForm" method="POST" action="/create">
+                      <label for="trackingNumber">Tracking Number:</label>
+        <input type="text" id="trackingNumber" name="trackingNumber" required><br><br>
+
+        <label for="receiverAddress">Receiver Address:</label>
+        <input type="text" id="receiverAddress" name="receiverAddress" required><br><br>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required><br><br>
+
+        <input type="hidden" id="status" name="status">
+        <input type="hidden" id="isPaid" name="isPaid">
+        <input type="hidden" id="createdAt" name="createdAt">
+        <input type="hidden" id="transactionHash" name="transactionHash">
+
+        <input type="button" value="Create Shipment" onclick="createShipment()">
+
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.5/dist/web3.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='ContractABI.json') }}"></script>
+
+    <script>
+        async function createShipment() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('Please install MetaMask!');
+                return;
+            }
+
+            try {
+                await ethereum.request({ method: 'eth_requestAccounts' });
+            } catch (error) {
+                alert('User denied account access');
+                return;
+            }
+
+            const web3 = new Web3(window.ethereum);
+
+
+            async function getABI() {
+            const response = await fetch("{{ url_for('static', filename='ContractABI.json') }}");
+            const data = await response.json();
+            return data;
+        }
+
+            const trackingNumber = document.getElementById('trackingNumber').value;
+            const receiverAddress = web3.utils.toChecksumAddress(document.getElementById('receiverAddress').value);
+            const amount = web3.utils.toWei(document.getElementById('amount').value, 'ether');
+
+            const contractABI = await getABI();
+            contract_address = web3.utils.toChecksumAddress('0x00364a85794c748178c2be27c5309c69105abfc3')
+            const contract = new web3.eth.Contract(contractABI, contract_address)
+            const accounts = await web3.eth.getAccounts()
+
+            contract.methods.createShipment(trackingNumber, receiverAddress, amount)
+                .send({ from: accounts[0] })
+                .on('receipt', function(receipt){
+                    alert('Transaction complete. Transaction hash: ' + receipt.transactionHash);
+
+                    // Set the status, isPaid, createdAt, and transactionHash fields
+                    document.getElementById('status').value = 'Successful';
+                    document.getElementById('isPaid').value = true;
+                    document.getElementById('createdAt').value = new Date().toISOString();
+                    document.getElementById('transactionHash').value = receipt.transactionHash;
+
+                    // Submit the form data to the server
+                    document.getElementById('createShipmentForm').submit();
+                })
+                .on('error', function(error){
+                    alert('Transaction failed: ' + error.message);
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+        }
+
+        header, main, footer {
+            padding: 20px;
+        }
+
+        header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .logout {
+            float: right;
+            margin-right: 20px;
+        }
+
+        main {
+            min-height: 600px; /* Adjust as needed */
+        }
+
+        section {
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+        }
+
+         /* ... (existing CSS styles) ... */
+
+    /* Style for the "Order Management" section */
+    #order-info {
+        position: relative;
+    }
+
+
+    /* Style for the "Order List" section */
+.order-list {
+    margin-bottom: 20px; /* Add margin to create space between List Orders and Order Details */
+    max-height: 300px; /* Set a maximum height for the List Orders section */
+    overflow-y: auto; /* Add a vertical scrollbar when content exceeds the max height */
+}
+
+    /* Style for the "Create Order" div within the "Order Management" section */
+    .create-order {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: right;
+        margin: 20px;
+    }
+
+    /* Style for the "Create Order" button within the "Create Order" div */
+    .create-order button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+
+    /* Style for the "Order Details" section */
+.order-details {
+    background: #f7f7f7;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Add margin to create space between List Orders and Order Details */
+}
+
+/* Style for the "Order Details" form */
+.order-details form {
+    margin-bottom: 10px;
+}
+
+/* Style for the "View Order" button within the "Order Details" form */
+.order-details button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* Style for the displayed order details */
+.order-details h4 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.order-details p {
+    margin: 5px 0;
+}
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header>
+    <h1>Welcome to Your Dashboard, {{ user.username }}</h1>
+    <nav>
+        <ul>
+           <h2>Home</h2>
+            <li class="logout">
+                <form action="{{ url_for('auth_bp.logout') }}" method="post">
+                    <input type="submit" value="Logout">
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main>
+        <section id="user-info">
+            <!-- Placeholder for user-specific information from user management service -->
+            <h2>User Information</h2>
+            <div id="user-details">
+                <!-- User-specific information will be displayed here -->
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Name:</strong> {{ user.name }}</p>
+                <p><strong>Status:</strong> {{ user.status }}</p>
+                <!-- You can display more user-related information as needed -->
+            </div>
+        </section>
+
+        <section id="shipment-info">
+            <!-- Placeholder for shipment information from shipment management service -->
+        </section>
+
+        <section id="inventory-info">
+            <!-- Placeholder for inventory information from inventory management service -->
+        </section>
+
+        <!-- Order Management Section -->
+
+        <section id="order-info">
+
+
+            <!-- Create Order button and heading within Order Management section -->
+           <!-- Create Order button and heading within Order Management section -->
+            <!-- Create Order button and heading within Order Management section -->
+            <!-- Create Order link -->
+            <div class="create-order">
+                <a href="#" id="show-create-order-form">Create Order</a>
+            </div>
+
+                  <!-- Form to create a new order (Initially hidden) -->
+<form id="create-order-form" action="/users/create_order" method="post" style="display: none; margin-top: 20px; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h3>Create Order</h3>
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        <label for="item-description">Item:</label>
+        <select id="item-description" name="item_description" required style="width: 100%; padding: 5px;">
+            <option value="Phone">Phone</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Clothes">Clothes</option>
+            <!-- Add more default items as needed -->
+        </select>
+
+        <label for="quantity">Quantity:</label>
+        <select id="quantity" name="quantity" required style="width: 100%; padding: 5px;">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+
+        <label for="total-price">Total Price:</label>
+        <input type="number" id="total-price" name="total_price" readonly style="width: 100%; padding: 5px; margin-bottom: 10px;">
+
+        <label for="shipping-address">Shipping Address:</label>
+        <input type="text" id="shipping-address" name="shipping_address" required style="width: 100%; padding: 5px;">
+    </div>
+
+    <button type="submit"  style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin-top: 10px;">Create Order</button>
+</form>
+
+                        <script>
+                // JavaScript for calculating the total price based on quantity
+                const quantitySelect = document.getElementById('quantity');
+                const totalPriceInput = document.getElementById('total-price');
+
+                // Define unit price for the item (adjust as needed)
+                const unitPrice = 100; // Replace with the actual unit price
+
+                quantitySelect.addEventListener('change', () => {
+                    const quantity = parseInt(quantitySelect.value);
+                    const total = quantity * unitPrice;
+                    totalPriceInput.value = total;
+                });
+            </script>
+
+            <!-- List Orders -->
+            <div class="order-list">
+                <h3>List Orders</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Status</th>
+                             <th>Cancel Order</th>
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through orders and display them here -->
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.customer_name }}</td>
+                                <td>{{ order.status }}</td>
+                                 <td>
+                                     <form action="" method="post">
+                                          <button type="submit">Cancel Order</button>
+                                     </form>
+                                 </td>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <!-- Order Details -->
+    <div class="order-details">
+        <h3>Choose an Order to View Details</h3>
+        <!-- Add form or links for viewing order details -->
+        <!-- Include a way to enter or select an order ID -->
+
+        <!-- Form to enter or select an order ID -->
+        <form action="" method="post">
+            <label for="order-id">Enter Order ID:</label>
+            <input type="text" id="order-id" name="order_id" required>
+            <button type="submit">View Order</button>
+        </form>
+
+        <!-- Display order details here when an order is selected -->
+        {% if selected_order %}
+            <h4>Order ID: {{ selected_order.id }}</h4>
+            <p><strong>Customer Name:</strong> {{ selected_order.customer_name }}</p>
+            <p><strong>Status:</strong> {{ selected_order.status }}</p>
+            <!-- Display more order details as needed -->
+        {% endif %}
+    </div>
+</section>
+
+
+
+
+        <!-- End Order Management Section -->
+
+        <!-- Add more sections as needed -->
+
+
+        <section id="reporting-info">
+            <!-- Placeholder for reporting information from pricing and reporting service -->
+        </section>
+
+        <section id="feedback-info">
+            <!-- Placeholder for feedback from support and feedback service -->
+        </section>
+    </main>
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+
+<script>
+    const showCreateOrderFormButton = document.getElementById('show-create-order-form');
+    const createOrderForm = document.getElementById('create-order-form');
+
+    showCreateOrderFormButton.addEventListener('click', function () {
+        if (createOrderForm.style.display === 'none' || createOrderForm.style.display === '') {
+            createOrderForm.style.display = 'block';
+        } else {
+            createOrderForm.style.display = 'none';
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

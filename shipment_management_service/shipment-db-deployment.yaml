@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipment-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipment-db
+  template:
+    metadata:
+      labels:
+        app: shipment-db
+    spec:
+      containers:
+      - name: shipment-db
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306

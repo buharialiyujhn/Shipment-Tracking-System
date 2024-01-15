@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Order Details</h1>
+        <p><strong>ID:</strong> {{ order.id }}</p>
+        <p><strong>Content:</strong> {{ order.content }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+        <!-- Add more details as per your model -->
+    </div>
+</body>
+</html>

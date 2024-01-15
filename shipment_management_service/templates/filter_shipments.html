@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Shipments</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 300px; margin: auto; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="date"], input[type="submit"] {
+            width: 100%; padding: 8px; margin-bottom: 10px;
+        }
+        input[type="submit"] { background-color: #4CAF50; color: white; cursor: pointer; }
+        input[type="submit"]:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>Filter Shipments</h1>
+    <form action="/api/shipments/filter" method="get">
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status">
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+
+        <input type="submit" value="Filter Shipments">
+    </form>
+</body>
+</html>

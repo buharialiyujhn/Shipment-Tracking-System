@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set New Password</title>
+</head>
+<body>
+    <form action="{{ url_for('auth_bp.reset_with_token', token=token) }}" method="post">
+        <h1>Set New Password</h1>
+        <label for="new_password">New Password:</label>
+        <input type="password" id="new_password" name="new_password" required>
+        <input type="submit" value="Set New Password">
+    </form>
+</body>
+</html>

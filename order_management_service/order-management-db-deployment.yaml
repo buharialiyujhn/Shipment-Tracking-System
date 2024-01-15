@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-management-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-management-db
+  template:
+    metadata:
+      labels:
+        app: order-management-db
+    spec:
+      containers:
+      - name: order-management-db
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306

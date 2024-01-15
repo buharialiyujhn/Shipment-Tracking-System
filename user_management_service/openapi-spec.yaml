@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: User Management Service API
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                name:
+                  type: string
+                password_hash:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+
+  /profile/{username}:
+    get:
+      summary: Retrieve a user's profile
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /user_dashboard:
+    get:
+      summary: Display user dashboard
+      responses:
+        '200':
+          description: User dashboard page
+          content:
+            text/html:
+              schema:
+                type: string
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        password_hash:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+

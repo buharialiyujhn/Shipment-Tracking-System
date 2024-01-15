@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Add any additional styles you want here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .user-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .user-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+
+        select {
+            padding: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add some styles for the logout button */
+        .logout-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #bb2d3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Add the logout button here -->
+        <form method="POST" action="{{ url_for('auth_bp.logout') }}">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+        <h1>Admin Dashboard</h1>
+
+        <ul class="user-list">
+            {% for user in users %}
+                <li class="user-list-item">
+                    <span>{{ user.username }}</span>
+                    <form method="POST" action="{{ url_for('user_bp.assign_role') }}">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <select name="role">
+                            <option value="Admin">Admin</option>
+                            <option value="Customer">Customer</option>
+                            <option value="Operations Manager">Operations Manager</option>
+                            <option value="Shipping Partner">Shipping Partner</option>
+                            <option value="Inventory Manager">Inventory Manager</option>
+                            <option value="Data Analyst">Data Analyst</option>
+                            <option value="Support Agent">Support Agent</option>
+                            <!-- Add any additional roles here -->
+                        </select>
+                        <button type="submit" class="btn-primary">Assign Role</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

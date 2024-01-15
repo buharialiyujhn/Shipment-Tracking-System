@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+    restart: always  # Add this line to the web service
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'inventory_db'
+      MYSQL_USER: 'ifiyemi'
+      MYSQL_PASSWORD: 'braceup'
+      MYSQL_ROOT_PASSWORD: 'isepstudent'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always  # Add this line to the db service
+
+volumes:
+  mysql-data:

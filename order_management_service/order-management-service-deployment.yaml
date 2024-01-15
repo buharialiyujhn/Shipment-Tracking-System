@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-management-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-management-service
+  template:
+    metadata:
+      labels:
+        app: order-management-service
+    spec:
+      containers:
+      - name: order-management-service
+        image: ificiency/order-management-service:latest
+        ports:
+        - containerPort: 5000

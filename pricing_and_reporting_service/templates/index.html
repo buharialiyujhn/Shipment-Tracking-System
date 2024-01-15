@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing and Reporting Service</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Pricing and Reporting Service</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('pricing_bp.calculate_price') }}">Calculate Pricing</a></li>
+            <li><a href="{{ url_for('pricing_bp.generate_reports') }}">Generate Reports</a></li>
+            <li><a href="{{ url_for('pricing_bp.analytics_dashboard') }}">View Dashboard</a></li>
+            <!-- Add more links as needed -->
+        </ul>
+    </nav>
+    <footer>
+        <p>&copy; 2024 Pricing and Reporting Service</p>
+    </footer>
+</body>
+</html>

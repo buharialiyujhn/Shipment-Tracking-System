@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Shipments</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .text-center { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>View Shipments</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tracking Number</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Amount (ETH)</th>
+                <th>Paid</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shipment in shipments %}
+                <tr>
+                    <td class="text-center">{{ shipment.id }}</td>
+                    <td>{{ shipment.tracking_number }}</td>
+                    <td>{{ shipment.sender }}</td>
+                    <td>{{ shipment.receiver }}</td>
+                    <td>{{ shipment.amount }}</td>
+                    <td class="text-center">{{ 'Yes' if shipment.is_paid else 'No' }}</td>
+                    <td>{{ shipment.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: Pricing Service API
+  version: 1.0.0
+paths:
+  /pricing:
+    post:
+      summary: Add new pricing rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shipment_type:
+                  type: string
+                base_price:
+                  type: number
+                weight_factor:
+                  type: number
+                distance_factor:
+                  type: number
+      responses:
+        '201':
+          description: Pricing rule added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+
+  /pricing/{pricing_id}:
+    get:
+      summary: Get a specific pricing rule
+      parameters:
+        - in: path
+          name: pricing_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pricing_id:
+                    type: integer
+                  shipment_type:
+                    type: string
+                  base_price:
+                    type: number
+                  weight_factor:
+                    type: number
+                  distance_factor:
+                    type: number
+    put:
+      summary: Update a specific pricing rule
+      parameters:
+        - in: path
+          name: pricing_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shipment_type:
+                  type: string
+                base_price:
+                  type: number
+                weight_factor:
+                  type: number
+                distance_factor:
+                  type: number
+      responses:
+        '200':
+          description: Pricing rule updated
+    delete:
+      summary: Delete a specific pricing rule
+      parameters:
+        - in: path
+          name: pricing_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Pricing rule deleted
+
+  /pricing/calculate:
+    get:
+      summary: Calculate price for a given shipment
+      parameters:
+        - in: query
+          name: shipment_type
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: weight
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: distance
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Calculated price
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  price:
+                    type: number
+        '400':
+          description: Missing parameters
+        '404':
+          description: Pricing rule not found
+
+  /reports/generate:
+    get:
+      summary: Generate pricing reports
+      responses:
+        '200':
+          description: Report generated successfully
+          content:
+            text/html:
+              schema:
+                type: string  # Assuming the report is returned as HTML content
+
+  /analytics/dashboard:
+    get:
+      summary: Display analytics on the dashboard
+      responses:
+        '200':
+          description: Dashboard view returned
+          content:
+            text/html:
+              schema:
+                type: string  # Assuming the dashboard view is returned as HTML content
+
+  /quotes:
+    post:
+      summary: Create a quote based on the pricing rules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shipment_type:
+                  type: string
+                weight:
+                  type: number
+                distance:
+                  type: number
+      responses:
+        '200':
+          description: Quote created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quote_price:
+                    type: number
+        '404':
+          description: Pricing rule not found for the given shipment type

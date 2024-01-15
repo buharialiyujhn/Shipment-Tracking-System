@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Reports</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        header { background-color: #333; color: #fff; text-align: center; padding: 1rem; }
+        section { margin: 20px; padding: 20px; background-color: white; }
+        footer { text-align: center; padding: 1rem; background-color: #333; color: #fff; }
+    </style>
+</head>
+
+<body>
+    <!-- ... header ... -->
+    <section>
+        <h2>Generate Reports</h2>
+        <form action="{{ url_for('pricing_bp.generate_reports') }}" method="post">
+            <!-- Add selection criteria for reports, e.g., date range, type of report -->
+            <input type="date" name="start_date">
+            <input type="date" name="end_date">
+            <select name="report_type">
+                <option value="sales">Sales Report</option>
+                <option value="expenses">Expenses Report</option>
+                <!-- Add more options as needed -->
+            </select>
+            <button type="submit">Generate</button>
+        </form>
+    </section>
+    <!-- ... footer ... -->
+</body>
+</html>

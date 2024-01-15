@@ -1,0 +1,28 @@
+#inventory-db-deployment.yaml for the MySQL database:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-db
+  template:
+    metadata:
+      labels:
+        app: inventory-db
+    spec:
+      containers:
+      - name: inventory-db
+        image: mysql:5.7  # Use the official MySQL image
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc

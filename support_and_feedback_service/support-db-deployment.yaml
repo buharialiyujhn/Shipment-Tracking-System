@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: support-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: support-db
+  template:
+    metadata:
+      labels:
+        app: support-db
+    spec:
+      containers:
+      - name: support-db
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306

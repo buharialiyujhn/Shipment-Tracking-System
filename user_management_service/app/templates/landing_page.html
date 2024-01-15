@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Tracking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!--
+        <div class="logo">
+           <img src="path-to-your-logo.png" alt="Company Logo">
+        </div>
+        -->
+        <h1>Welcome to Shipment Tracking System</h1>
+        <p>Please choose an option below:</p>
+        <a href="{{ url_for('user_bp.login') }}">Login</a>
+        <a href="{{ url_for('user_bp.register_user') }}">Register</a>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>All Orders</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.content }}</td>
+                    <td>{{ order.status }}</td>
+                    <td><a href="{{ url_for('order_bp.view_order', order_id=order.id) }}">View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

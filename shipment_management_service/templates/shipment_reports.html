@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shipment Reports</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .report { max-width: 600px; margin: auto; }
+        .report div { margin-bottom: 10px; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Shipment Reports</h1>
+    <div class="report">
+        {% for item in report %}
+            <div>
+                <span class="label">{{ item.label }}:</span> {{ item.value }}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
